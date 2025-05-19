@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/05/2025 às 14:06
+-- Tempo de geração: 19/05/2025 às 14:07
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `etecmcm2`
 --
-CREATE DATABASE IF NOT EXISTS `etecmcm2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `etecmcm2`;
 
 -- --------------------------------------------------------
 
@@ -39,16 +37,16 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `nome_cat`) VALUES
-(1, 'Limpeza'),
-(2, 'Frios'),
-(3, 'Laticinios'),
-(4, 'Enlatados'),
-(5, 'Carnes'),
-(6, 'Hortifrut'),
-(7, 'Perfumaria'),
-(8, 'Bebidas'),
-(9, 'Eletroeletrônicos'),
-(10, 'Embalagens');
+(1, 'limpeza'),
+(2, 'frios'),
+(3, 'oculos'),
+(4, 'carnes'),
+(5, 'enlatados'),
+(6, 'eletronicos'),
+(7, 'perfumaria'),
+(8, 'bebidas'),
+(9, 'hortifrut'),
+(10, 'congelados');
 
 -- --------------------------------------------------------
 
@@ -57,13 +55,31 @@ INSERT INTO `categorias` (`id_categoria`, `nome_cat`) VALUES
 --
 
 CREATE TABLE `produtos` (
-  `ID_produto` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
   `nome` varchar(255) DEFAULT NULL,
-  `qtde` int(11) DEFAULT NULL,
   `preco` decimal(10,2) DEFAULT NULL,
+  `quant` int(11) DEFAULT NULL,
   `marca` varchar(255) DEFAULT NULL,
-  `fk_categorias_id_categoria` int(11) DEFAULT NULL
+  `id_categoria` int(11) DEFAULT NULL,
+  `unidade_medida` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id_produto`, `nome`, `preco`, `quant`, `marca`, `id_categoria`, `unidade_medida`) VALUES
+(1, 'Sabão em pó', 25.00, 4, 'OMO', 1, 'kg'),
+(2, 'Detergente', 3.00, 25, 'Ypê', 1, 'un'),
+(3, 'Mussarela', 10.00, 80, 'Sadia', 2, 'kg'),
+(4, 'Oculos', 200.00, 1, 'Extra Otica', 3, 'un'),
+(5, 'Carne de panela', 25.00, 7, 'Perdigão', 4, 'kg'),
+(6, 'Milho', 4.00, 55, 'Qualitá', 5, 'un'),
+(7, 'Celular', 900.00, 67, 'Samsung', 6, 'un'),
+(8, 'Body Splash Floratta Blue', 90.00, 59, 'O boticario', 7, 'un'),
+(9, 'Refrigerante', 3.00, 478, 'Guaraná Jesus', 8, 'un'),
+(10, 'Uva', 10.00, 92, 'turma da Mônica', 9, 'kg'),
+(11, 'batata frita', 30.00, 58, 'Aurora', 10, 'kg');
 
 --
 -- Índices para tabelas despejadas
@@ -79,8 +95,8 @@ ALTER TABLE `categorias`
 -- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  ADD PRIMARY KEY (`ID_produto`),
-  ADD KEY `FK_produtos_2` (`fk_categorias_id_categoria`);
+  ADD PRIMARY KEY (`id_produto`),
+  ADD KEY `id_categoria` (`id_categoria`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -96,7 +112,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `ID_produto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restrições para tabelas despejadas
@@ -106,7 +122,7 @@ ALTER TABLE `produtos`
 -- Restrições para tabelas `produtos`
 --
 ALTER TABLE `produtos`
-  ADD CONSTRAINT `FK_produtos_2` FOREIGN KEY (`fk_categorias_id_categoria`) REFERENCES `categorias` (`id_categoria`);
+  ADD CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
